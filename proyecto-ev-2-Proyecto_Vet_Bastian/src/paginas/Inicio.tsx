@@ -11,7 +11,7 @@ function Inicio() {
 
   return (
     <div className="container py-3">
-      <div className="d-flex justify-content-end gap-1 mb-2" style={{ fontSize: '13px', color: '#184e36' }}>
+      <div className="d-flex justify-content-asend gap-1 mb-2" style={{ fontSize: '13px', color: '#184e36' }}>
         <Link to="/login" className="text-decoration-none" style={{ color: '#184e36' }}>
           Iniciar sesión
         </Link>
