@@ -1,0 +1,57 @@
+:root {
+  --vet-verde-principal: #184e36;
+  --vet-verde-oscuro: #0b2419;
+  --vet-verde-claro: #eef5f1;
+  --vet-borde: #d5e2d9;
+}
+
+/* Tipografía serif para títulos principales como en la imagen */
+.font-serif-vet {
+  font-family: "Georgia", "Times New Roman", serif;
+}
+
+/* Colores personalizados */
+.text-vet-verde {
+  color: var(--vet-verde-principal) !important;
+}
+
+.bg-vet-verde {
+  background-color: var(--vet-verde-principal) !important;
+}
+
+.bg-vet-claro {
+  background-color: var(--vet-verde-claro) !important;
+}
+
+.bg-vet-oscuro {
+  background-color: var(--vet-verde-oscuro) !important;
+}
+
+.border-vet {
+  border-color: var(--vet-borde) !important;
+}
+
+/* Botón contorno verde */
+.btn-outline-vet {
+  color: var(--vet-verde-principal);
+  border-color: var(--vet-verde-principal);
+  background-color: transparent;
+  font-weight: 600;
+}
+.btn-outline-vet:hover {
+  background-color: var(--vet-verde-principal);
+  color: #ffffff;
+}
+
+/* Botón blanco sólido */
+.btn-blanco-vet {
+  background-color: #ffffff;
+  color: var(--vet-verde-principal);
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+.btn-blanco-vet:hover {
+  background-color: #f8f9fa;
+  color: var(--vet-verde-oscuro);
+}
