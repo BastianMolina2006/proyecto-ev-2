@@ -12,6 +12,9 @@ import Servicios from './paginas/Servicios';
 import CategoriaServicio from './paginas/CategoriaServicio';
 import DetalleServicio from './paginas/DetalleServicio';
 
+import Login from './paginas/Login';
+import Registro from './paginas/Registro';
+
 function App() {
   return (
     <div className="d-flex flex-column min-vh-100 bg-white">
@@ -27,6 +30,9 @@ function App() {
           <Route path="/servicios" element={<Servicios />} />
           <Route path="/servicios/categoria/:categoriaSlug" element={<CategoriaServicio />} />
           <Route path="/servicios/:codigo" element={<DetalleServicio />} />
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Registro />} />
 
           <Route path="*" element={<Inicio />} />
         </Routes>

@@ -16,7 +16,7 @@ function Inicio() {
           Iniciar sesión
         </Link>
         <span className="text-muted">|</span>
-        <Link to="#" className="text-decoration-none" style={{ color: '#184e36' }}>
+        <Link to="/registro" className="text-decoration-none" style={{ color: '#184e36' }}>
           Registrar usuario
         </Link>
         </div>
