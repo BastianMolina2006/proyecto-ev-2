@@ -7,6 +7,7 @@ export interface Medicamento {
   especie: string;
   stock: number;
   precio: number;
+  imagen?: string;
 }
 
 export interface CategoriaInfo {
@@ -23,4 +24,5 @@ export interface Servicio {
   duracion: string;
   precio: number;
   observaciones: string;
+  imagen?: string;
 }
