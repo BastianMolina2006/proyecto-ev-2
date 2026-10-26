@@ -30,7 +30,7 @@ function Inicio() {
           <p className="text-secondary small mb-4" style={{ maxWidth: '420px', lineHeight: '1.6' }}>
             Encuentra el mejor servicio, medicamentos y suplementos para el cuidado y bienestar integral de tus mascotas. ¡Calidad garantizada!
           </p>
-          <a href="#servicios" className="btn btn-outline-vet btn-sm px-3 py-2">
+          <a href="/servicios" className="btn btn-outline-vet btn-sm px-3 py-2">
             ↓ Ver servicios
           </a>
         </div>

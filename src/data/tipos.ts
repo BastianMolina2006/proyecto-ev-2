@@ -14,3 +14,13 @@ export interface CategoriaInfo {
   slug: string;
   icono: string;
 }
+
+export interface Servicio {
+  codigo: string;
+  categoria: string;
+  nombre: string;
+  especie: string;
+  duracion: string;
+  precio: number;
+  observaciones: string;
+}

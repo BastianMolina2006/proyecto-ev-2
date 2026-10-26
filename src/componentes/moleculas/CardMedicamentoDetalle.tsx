@@ -32,11 +32,9 @@ export const CardMedicamentoDetalle: React.FC<Props> = ({ medicamento }) => {
           ${medicamento.precio.toLocaleString('es-CL')}
         </span>
         <Link 
-          to={`/medicamentos/detalle/${medicamento.codigo}`} 
-          className="btn btn-sm btn-vet-outline rounded-pill px-3"
-        >
-          Ver detalle →
-        </Link>
+              to={`/medicamentos/${medicamento.codigo}`} className="btn btn-sm btn-vet-outline rounded-pill px-3">
+              Ver detalle →
+          </Link>
       </div>
     </div>
   );

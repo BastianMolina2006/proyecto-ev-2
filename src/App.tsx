@@ -6,6 +6,11 @@ import Footer from './componentes/organismos/Footer';
 import Inicio from './paginas/Inicio';
 import Medicamentos from './paginas/Medicamentos';
 import CategoriaMedicamento from './paginas/CategoriaMedicamentos';
+import DetalleMedicamento from './paginas/DetalleMedicamento';
+
+import Servicios from './paginas/Servicios';
+import CategoriaServicio from './paginas/CategoriaServicio';
+import DetalleServicio from './paginas/DetalleServicio';
 
 function App() {
   return (
@@ -17,6 +22,12 @@ function App() {
           <Route path="/medicamentos" element={<Medicamentos />} />
           
           <Route path="/medicamentos/categoria/:categoriaSlug" element={<CategoriaMedicamento />} />
+          <Route path="/medicamentos/:codigo" element={<DetalleMedicamento />} />
+
+          <Route path="/servicios" element={<Servicios />} />
+          <Route path="/servicios/categoria/:categoriaSlug" element={<CategoriaServicio />} />
+          <Route path="/servicios/:codigo" element={<DetalleServicio />} />
+
           <Route path="*" element={<Inicio />} />
         </Routes>
       </main>
