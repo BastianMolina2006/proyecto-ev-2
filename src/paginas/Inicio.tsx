@@ -3,10 +3,10 @@ import CardServicio from '../componentes/moleculas/CardServicio';
 
 function Inicio() {
   const servicios = [
-    { titulo: "Consultas Veterinarias", subtitulo: "Cotiza tu consulta", precio: "$10.000 - $25.000", icono: "🩺" },
-    { titulo: "Vacunas", subtitulo: "Cotiza tu vacuna", precio: "$10.000 - $25.000", icono: "💉" },
-    { titulo: "Cirugías", subtitulo: "Cotiza tu cirugía", precio: "$10.000 - $25.000", icono: "✂️" },
-    { titulo: "Exámenes", subtitulo: "Cotiza tu examen", precio: "$10.000 - $25.000", icono: "🔬" }
+    { titulo: "Consultas Veterinarias", subtitulo: "Cotiza tu consulta", precio: "$10.000 - $25.000", icono: "/img/consulta.jpg" },
+    { titulo: "Vacunas", subtitulo: "Cotiza tu vacuna", precio: "$10.000 - $25.000", icono: "/img/vacuna.jpeg" },
+    { titulo: "Cirugías", subtitulo: "Cotiza tu cirugía", precio: "$10.000 - $25.000", icono: "/img/cirugia.jpg" },
+    { titulo: "Exámenes", subtitulo: "Cotiza tu examen", precio: "$10.000 - $25.000", icono: "/img/examenes.jpg" }
   ];
 
   return (
@@ -37,7 +37,7 @@ function Inicio() {
         <div className="col-md-6 text-center mt-4 mt-md-0">
           <div className="p-1 bg-white border border-dark d-inline-block shadow-sm">
             <img 
-              src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=650&q=80" 
+              src="/img/tienda.avif" 
               alt="Veterinaria con mascotas" 
               className="img-fluid"
               style={{ maxHeight: '230px', objectFit: 'cover' }}
