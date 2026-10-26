@@ -6,6 +6,7 @@ import Inicio from './paginas/Inicio';
 import Nosotros from './paginas/Nosotros';
 import Noticias from './paginas/Noticias';
 import DetalleNoticia from './paginas/DetalleNoticia';
+import Contacto from './paginas/Contacto'; // <-- Importar Contacto
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/nosotros" element={<Nosotros />} />
         <Route path="/noticias" element={<Noticias />} />
         <Route path="/noticias/:id" element={<DetalleNoticia />} />
+        <Route path="/contacto" element={<Contacto />} /> {/* <-- Agregar la ruta */}
         <Route path="*" element={<Inicio />} />
       </Routes>
       <Footer />
