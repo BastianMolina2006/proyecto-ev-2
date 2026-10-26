@@ -3,10 +3,10 @@ import CardServicio from '../componentes/moleculas/CardServicio';
 
 function Inicio() {
   const servicios = [
-    { titulo: "Consultas Veterinarias", subtitulo: "Cotiza tu consulta", precio: "$10.000 - $25.000", icono: "/img/consulta.jpg" },
-    { titulo: "Vacunas", subtitulo: "Cotiza tu vacuna", precio: "$10.000 - $25.000", icono: "/img/vacuna.jpeg" },
-    { titulo: "Cirugías", subtitulo: "Cotiza tu cirugía", precio: "$10.000 - $25.000", icono: "/img/cirugia.jpg" },
-    { titulo: "Exámenes", subtitulo: "Cotiza tu examen", precio: "$10.000 - $25.000", icono: "/img/examenes.jpg" }
+    { titulo: "Consultas Veterinarias", subtitulo: "Cotiza tu consulta", precio: "$10.000 - $25.000", icono: "/img/consulta.jpg",ruta: "/servicios/categoria/consultas" },
+    { titulo: "Vacunas", subtitulo: "Cotiza tu vacuna", precio: "$10.000 - $25.000", icono: "/img/vacuna.jpeg",ruta: "/servicios/categoria/vacunacion" },
+    { titulo: "Cirugías", subtitulo: "Cotiza tu cirugía", precio: "$10.000 - $25.000", icono: "/img/cirugia.jpg",ruta: "/servicios/categoria/cirugia" },
+    { titulo: "Exámenes", subtitulo: "Cotiza tu examen", precio: "$10.000 - $25.000", icono: "/img/examenes.jpg",ruta: "/servicios/categoria/examenes" }
   ];
 
   return (
@@ -46,7 +46,7 @@ function Inicio() {
         </div>
       </div>
 
-      <div id="servicios" className="row g-3 mb-5">
+      <div id="servicios" className="row g-4 mb-5">
         {servicios.map((s, index) => (
           <div key={index} className="col-12 col-md-6 col-lg-3">
             <CardServicio {...s} />

@@ -1,34 +1,53 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 interface CardProps {
   titulo: string;
   subtitulo: string;
   precio: string;
   icono: string;
+  ruta?: string;
 }
 
-function CardServicio({ titulo, subtitulo, precio, icono }: CardProps) {
+function CardServicio({ titulo, subtitulo, precio, icono, ruta = "/servicios" }: CardProps) {
   return (
-    <div className="card text-center h-100 shadow-sm border border-vet overflow-hidden">
-      
-      <div style={{ height: '140px', backgroundColor: '#edf4f0' }}>
-        <img 
-          src={icono} 
-          alt={titulo} 
-          style={{ 
-            width: '100%', 
-            height: '100%', 
-            objectFit: 'cover' 
-          }} 
-        />
-      </div>
-
-      <div className="card-body d-flex justify-content-between align-items-end p-3">
-        <div className="text-start">
-          <h6 className="card-title text-vet-verde fw-bold mb-1 fs-6">{titulo}</h6>
-          <small className="text-muted">{subtitulo}</small>
+    <Link to={ruta} className="text-decoration-none text-reset">
+      <div 
+        className="card h-100 shadow-sm border border-vet overflow-hidden transition-all"
+        style={{ cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease' }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 6px 12px rgba(0,0,0,0.1)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '';
+        }}
+      >
+        
+        <div style={{ height: '140px', backgroundColor: '#edf4f0' }}>
+          <img 
+            src={icono} 
+            alt={titulo} 
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover',
+              display: 'block'
+            }} 
+          />
         </div>
-        <span className="fw-bold text-dark small">{precio}</span>
+
+        
+        <div className="card-body d-flex justify-content-between align-items-end p-3">
+          <div className="text-start">
+            <h6 className="card-title text-vet-verde fw-bold mb-1 fs-6">{titulo}</h6>
+            <small className="text-muted">{subtitulo}</small>
+          </div>
+          <span className="fw-bold text-dark small">{precio}</span>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
