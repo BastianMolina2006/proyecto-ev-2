@@ -61,66 +61,78 @@ export const DetalleServicio = () => {
       </div>
 
 
-      <div className="card p-4 p-md-5 border-vet shadow-sm rounded-4 text-start bg-white">
-        <div className="row">
-          <div className="col-12 col-md-8 offset-md-4">
-            
-            
-            <div className="d-flex align-items-center gap-2 mb-2">
-              <span className="text-muted fw-semibold small">{servicio.codigo}</span>
-              <span className="badge bg-vet-claro text-vet-verde border-vet fw-semibold px-2 py-1">
-                {servicio.categoria}
-              </span>
-            </div>
+        <div className="card p-4 p-md-5 border-vet shadow-sm rounded-4 text-start bg-white">
+            <div className="row align-items-center">
+        {/* Columna izquierda: Foto del servicio */}
+        <div className="col-12 col-md-5 text-center mb-4 mb-md-0">
+        <div className="rounded-4 overflow-hidden border border-vet shadow-sm"
+            style={{ height: '360px' }}>
+        <img
+            src={servicio.imagen || "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=600&q=80"}
+            alt={servicio.nombre}
+            style={{ 
+                width: '100%', 
+                height: '100%', 
+                objectFit: 'cover',
+                display: 'block'
+                }}
+            />
+        </div>
+        </div>
 
-            {/* Título y Especie */}
-            <h1 className="fw-bold font-serif-vet display-6 mb-1 text-dark">
-              {servicio.nombre}
-            </h1>
-            <p className="text-secondary small mb-4">
-              Especie indicada: <span className="fw-semibold text-dark">{servicio.especie}</span>
-            </p>
+    {/* Columna derecha: Detalles */}
+    <div className="col-12 col-md-7 ps-md-4">
+      <div className="d-flex align-items-center gap-2 mb-2">
+        <span className="text-muted fw-semibold small">{servicio.codigo}</span>
+        <span className="badge bg-vet-claro text-vet-verde border-vet fw-semibold px-2 py-1">
+          {servicio.categoria}
+        </span>
+      </div>
 
+      <h1 className="fw-bold font-serif-vet display-6 mb-1 text-dark">
+        {servicio.nombre}
+      </h1>
+      <p className="text-secondary small mb-4">
+        Especie indicada: <span className="fw-semibold text-dark">{servicio.especie}</span>
+      </p>
 
-            <div className="mb-4">
-              <small className="text-secondary d-block">Tarifa del procedimiento:</small>
-              <span className="fs-5 fw-bold text-dark">
-                ${servicio.precio.toLocaleString('es-CL')} CLP
-              </span>
-            </div>
+      <div className="mb-4">
+        <small className="text-secondary d-block">Tarifa del procedimiento:</small>
+        <span className="fs-5 fw-bold text-dark">
+          ${servicio.precio.toLocaleString('es-CL')} CLP
+        </span>
+      </div>
 
+      <h5 className="fw-bold text-dark font-serif-vet mb-3 pt-2 border-bottom pb-2">
+        Información Clínica y Condiciones
+      </h5>
 
-            <h5 className="fw-bold text-dark font-serif-vet mb-3 pt-2 border-bottom pb-2">
-              Información Clínica y Condiciones
-            </h5>
+      <div className="row g-3 mb-4">
+        <div className="col-6">
+          <small className="text-secondary d-block">Duración estimada</small>
+          <strong className="text-dark fs-6">{servicio.duracion}</strong>
+        </div>
+        <div className="col-6">
+          <small className="text-secondary d-block">Especie admitida</small>
+          <strong className="text-dark fs-6">{servicio.especie}</strong>
+        </div>
+      </div>
 
-            <div className="row g-3 mb-4">
-              <div className="col-6">
-                <small className="text-secondary d-block">Duración estimada</small>
-                <strong className="text-dark fs-6">{servicio.duracion}</strong>
-              </div>
-              <div className="col-6">
-                <small className="text-secondary d-block">Especie admitida</small>
-                <strong className="text-dark fs-6">{servicio.especie}</strong>
-              </div>
-            </div>
-
-            <div>
-              <small className="text-secondary d-block mb-2">Observaciones y requisitos</small>
-              <div 
-                className="p-3 rounded-3" 
-                style={{ backgroundColor: '#f8faf9', border: '1px solid #e2ece6' }}
-              >
-                <p className="m-0 text-dark small">
-                  {servicio.observaciones}
-                </p>
-              </div>
-            </div>
-
-          </div>
+      <div>
+        <small className="text-secondary d-block mb-2">Observaciones y requisitos</small>
+        <div 
+          className="p-3 rounded-3" 
+          style={{ backgroundColor: '#f8faf9', border: '1px solid #e2ece6' }}
+        >
+          <p className="m-0 text-dark small">
+            {servicio.observaciones}
+          </p>
         </div>
       </div>
     </div>
+  </div>
+</div>
+</div>
   );
 };
 
