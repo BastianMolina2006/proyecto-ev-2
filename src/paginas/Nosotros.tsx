@@ -1,6 +1,4 @@
-import React from 'react';
-
-interface ValorCardProps {
+interface Nosotros {
   icono: string;
   titulo: string;
   descripcion: string;
