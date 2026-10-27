@@ -21,7 +21,7 @@ test('CRUD - Read: AdminResumen calcula y muestra correctamente los productos co
   expect(screen.getByText('6')).toBeInTheDocument();
 });
 
-// 14. CRUD - Create (Formulario de alta)
+// CRUD - Create (Formulario de alta)
 test('CRUD - Create: FormNuevoMed emite el objeto creado con los datos ingresados', () => {
   vi.spyOn(window, 'alert').mockImplementation(() => {});
 
