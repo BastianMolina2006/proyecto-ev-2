@@ -28,10 +28,6 @@
     "globals": "^17.13.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.71.2",
-<<<<<<< HEAD
     "vite": "^8.3.4"
-=======
-    "vite": "^8.3.5"
->>>>>>> Proyecto_Vet_Bastian
   }
 }

@@ -3,33 +3,14 @@ import CardServicio from '../componentes/moleculas/CardServicio';
 
 function Inicio() {
   const servicios = [
-<<<<<<< HEAD
     { titulo: "Consultas Veterinarias", subtitulo: "Cotiza tu consulta", precio: "$10.000 - $25.000", icono: "/img/consulta.jpg",ruta: "/servicios/categoria/consultas" },
     { titulo: "Vacunas", subtitulo: "Cotiza tu vacuna", precio: "$10.000 - $25.000", icono: "/img/vacuna.jpeg",ruta: "/servicios/categoria/vacunacion" },
     { titulo: "Cirugías", subtitulo: "Cotiza tu cirugía", precio: "$10.000 - $25.000", icono: "/img/cirugia.jpg",ruta: "/servicios/categoria/cirugia" },
     { titulo: "Exámenes", subtitulo: "Cotiza tu examen", precio: "$10.000 - $25.000", icono: "/img/examenes.jpg",ruta: "/servicios/categoria/examenes" }
-=======
-    { titulo: "Consultas Veterinarias", subtitulo: "Cotiza tu consulta", precio: "$10.000 - $25.000", icono: "🩺" },
-    { titulo: "Vacunas", subtitulo: "Cotiza tu vacuna", precio: "$10.000 - $25.000", icono: "💉" },
-    { titulo: "Cirugías", subtitulo: "Cotiza tu cirugía", precio: "$10.000 - $25.000", icono: "✂️" },
-    { titulo: "Exámenes", subtitulo: "Cotiza tu examen", precio: "$10.000 - $25.000", icono: "🔬" }
->>>>>>> Proyecto_Vet_Bastian
   ];
 
   return (
     <div className="container py-3">
-<<<<<<< HEAD
-=======
-      <div className="d-flex justify-content-asend gap-1 mb-2" style={{ fontSize: '13px', color: '#184e36' }}>
-        <Link to="/login" className="text-decoration-none" style={{ color: '#184e36' }}>
-          Iniciar sesión
-        </Link>
-        <span className="text-muted">|</span>
-        <Link to="#" className="text-decoration-none" style={{ color: '#184e36' }}>
-          Registrar usuario
-        </Link>
-        </div>
->>>>>>> Proyecto_Vet_Bastian
 
     <div className="container py-4">
       <div className="row align-items-center bg-vet-claro p-4 p-md-5 rounded border border-vet mb-5">
@@ -40,22 +21,14 @@ function Inicio() {
           <p className="text-secondary small mb-4" style={{ maxWidth: '420px', lineHeight: '1.6' }}>
             Encuentra el mejor servicio, medicamentos y suplementos para el cuidado y bienestar integral de tus mascotas. ¡Calidad garantizada!
           </p>
-<<<<<<< HEAD
           <a href="/servicios" className="btn btn-outline-vet btn-sm px-3 py-2">
-=======
-          <a href="#servicios" className="btn btn-outline-vet btn-sm px-3 py-2">
->>>>>>> Proyecto_Vet_Bastian
             ↓ Ver servicios
           </a>
         </div>
         <div className="col-md-6 text-center mt-4 mt-md-0">
           <div className="p-1 bg-white border border-dark d-inline-block shadow-sm">
             <img 
-<<<<<<< HEAD
               src="/img/tienda.avif" 
-=======
-              src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=650&q=80" 
->>>>>>> Proyecto_Vet_Bastian
               alt="Veterinaria con mascotas" 
               className="img-fluid"
               style={{ maxHeight: '230px', objectFit: 'cover' }}
@@ -64,11 +37,7 @@ function Inicio() {
         </div>
       </div>
 
-<<<<<<< HEAD
       <div id="servicios" className="row g-4 mb-5">
-=======
-      <div id="servicios" className="row g-3 mb-5">
->>>>>>> Proyecto_Vet_Bastian
         {servicios.map((s, index) => (
           <div key={index} className="col-12 col-md-6 col-lg-3">
             <CardServicio {...s} />
