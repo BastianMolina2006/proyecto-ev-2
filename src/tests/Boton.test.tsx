@@ -48,3 +48,9 @@ test('AdminClientes muestra la tabla con columnas de RUN y TIPO DE USUARIO', () 
   expect(screen.getByText('RUN')).toBeInTheDocument();
   expect(screen.getByText('TIPO DE USUARIO')).toBeInTheDocument();
 });
+
+test('valida correctamente las credenciales predeterminadas del cliente demo', () => {
+  const usuario = autenticarUsuario('cliente@email.com', '1234');
+  expect(usuario).not.toBeNull();
+  expect(usuario?.tipoUsuario).toBe('Cliente');
+});
