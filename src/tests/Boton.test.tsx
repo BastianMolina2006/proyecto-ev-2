@@ -6,15 +6,18 @@ import { BrowserRouter } from 'react-router-dom';
 import CardServicio from '../componentes/moleculas/CardServicio';
 import { AdminClientes } from '../paginas/admin/AdminClientes';
 import { FormNuevoMed } from '../paginas/admin/FormNuevoMed';
+import { autenticarUsuario } from '../data/Usuarios';
 
 test('CardServicio renderiza correctamente el titulo y subtitulo pasados por props', () => {
+  const propsTest: any = {
+    titulo: 'Consultas Veterinarias',
+    subtitulo: 'Cotiza tu consulta medica',
+    link: '/servicios'
+  };
+
   render(
     <BrowserRouter>
-      <CardServicio 
-        titulo="Consultas Veterinarias" 
-        subtitulo="Cotiza tu consulta medica" 
-        link="/servicios" 
-      />
+      <CardServicio {...propsTest} />
     </BrowserRouter>
   );
 

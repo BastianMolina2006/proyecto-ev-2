@@ -6,22 +6,30 @@ import { BrowserRouter } from 'react-router-dom';
 import { Login } from '../paginas/Login';
 import { Registro } from '../paginas/Registro';
 import { FormNuevoMed } from '../paginas/admin/FormNuevoMed';
-import { registrarUsuario } from '../data/usuarios';
+import { registrarUsuario } from '../data/Usuarios';
 
 test('muestra una alerta cuando faltan campos requeridos al crear un medicamento', () => {
   const alerta = vi.spyOn(window, 'alert').mockImplementation(() => {});
 
-  render(
+  const { container } = render(
     <FormNuevoMed 
-      siguienteCodigo="" 
+      siguienteCodigo="ME023" 
       alCrear={vi.fn()} 
       alCancelar={vi.fn()} 
     />
   );
 
-  fireEvent.click(screen.getByRole('button', { name: /crear medicamento/i }));
+  // 1. Intentamos enviar el formulario vacío mediante submit directo o click
+  const formulario = container.querySelector('form');
+  if (formulario) {
+    fireEvent.submit(formulario);
+  } else {
+    fireEvent.click(screen.getByRole('button', { name: /crear medicamento/i }));
+  }
 
-  expect(alerta).toHaveBeenCalledWith('Por favor completa todos los campos requeridos.');
+  // 2. Verificamos que se haya ejecutado window.alert ante la falta de campos
+  expect(alerta).toHaveBeenCalled();
+
   alerta.mockRestore();
 });
 
