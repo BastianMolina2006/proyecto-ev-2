@@ -35,7 +35,7 @@ test('Login muestra mensaje de error condicional ante credenciales invalidas', (
   fireEvent.click(screen.getByRole('button', { name: /ingresar/i }));
   expect(screen.getByText(/credenciales inválidas/i)).toBeInTheDocument();
 });
-//Prueba unitaria
+
 test('Registro muestra advertencias cuando se intenta enviar el formulario vacio', () => {
   render(
     <BrowserRouter>
@@ -48,4 +48,23 @@ test('Registro muestra advertencias cuando se intenta enviar el formulario vacio
   expect(screen.getByText(/el run es obligatorio/i)).toBeInTheDocument();
   expect(screen.getByText(/el nombre es obligatorio/i)).toBeInTheDocument();
   expect(screen.getByText(/el correo electrónico es obligatorio/i)).toBeInTheDocument();
+});
+
+test('previene el registro de cuentas duplicadas con el mismo correo electronico', () => {
+  localStorage.clear();
+  const nuevo = {
+    run: '201234567',
+    tipoUsuario: 'Cliente',
+    nombre: 'Carlos',
+    apellidos: 'Gómez',
+    correo: 'carlos.gomez@test.cl',
+    clave: '123456',
+    fechaNacimiento: '1998-04-12',
+    region: 'Metropolitana',
+    comuna: 'Conchalí',
+    direccion: 'Av. Independencia 1234'
+  };
+
+  expect(registrarUsuario(nuevo)).toBe(true);
+  expect(registrarUsuario(nuevo)).toBe(false); // Duplicado rechazado
 });
