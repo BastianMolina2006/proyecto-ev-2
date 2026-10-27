@@ -36,3 +36,16 @@ test('Login muestra mensaje de error condicional ante credenciales invalidas', (
   expect(screen.getByText(/credenciales inválidas/i)).toBeInTheDocument();
 });
 //Prueba unitaria
+test('Registro muestra advertencias cuando se intenta enviar el formulario vacio', () => {
+  render(
+    <BrowserRouter>
+      <Registro />
+    </BrowserRouter>
+  );
+
+  fireEvent.click(screen.getByRole('button', { name: /crear cuenta/i }));
+
+  expect(screen.getByText(/el run es obligatorio/i)).toBeInTheDocument();
+  expect(screen.getByText(/el nombre es obligatorio/i)).toBeInTheDocument();
+  expect(screen.getByText(/el correo electrónico es obligatorio/i)).toBeInTheDocument();
+});
