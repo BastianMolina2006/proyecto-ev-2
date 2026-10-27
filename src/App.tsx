@@ -19,6 +19,10 @@ import AdminLayout from './paginas/admin/AdminLayout';
 import AdminResumen from './paginas/admin/AdminResumen';
 import AdminInventario from './paginas/admin/AdminInventario';
 import AdminClientes from './paginas/admin/AdminClientes';
+import Contacto from './paginas/Contacto';
+import DetalleNoticia from './paginas/DetalleNoticia';
+import Noticias from './paginas/Noticias';
+import Nosotros from './paginas/Nosotros';
 
 
 function App() {
@@ -36,6 +40,11 @@ function App() {
           <Route path="/servicios" element={<Servicios />} />
           <Route path="/servicios/categoria/:categoriaSlug" element={<CategoriaServicio />} />
           <Route path="/servicios/:codigo" element={<DetalleServicio />} />
+
+          <Route path="/nosotros" element={<Nosotros />} />
+          <Route path="/noticias" element={<Noticias />} />
+          <Route path="/noticias/:id" element={<DetalleNoticia />} />
+          <Route path="/contacto" element={<Contacto />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
