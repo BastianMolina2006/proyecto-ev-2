@@ -36,3 +36,15 @@ test('el boton Cancelar en FormNuevoMed ejecuta la llamada de cierre esperada', 
   fireEvent.click(screen.getByRole('button', { name: /cancelar/i }));
   expect(fnCancelar).toHaveBeenCalledTimes(1);
 });
+
+test('AdminClientes muestra la tabla con columnas de RUN y TIPO DE USUARIO', () => {
+  render(
+    <BrowserRouter>
+      <AdminClientes />
+    </BrowserRouter>
+  );
+
+  expect(screen.getByText(/clientes registrados/i)).toBeInTheDocument();
+  expect(screen.getByText('RUN')).toBeInTheDocument();
+  expect(screen.getByText('TIPO DE USUARIO')).toBeInTheDocument();
+});
