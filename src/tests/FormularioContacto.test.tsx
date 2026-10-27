@@ -24,3 +24,15 @@ test('muestra una alerta cuando faltan campos requeridos al crear un medicamento
   expect(alerta).toHaveBeenCalledWith('Por favor completa todos los campos requeridos.');
   alerta.mockRestore();
 });
+
+test('Login muestra mensaje de error condicional ante credenciales invalidas', () => {
+  render(
+    <BrowserRouter>
+      <Login />
+    </BrowserRouter>
+  );
+
+  fireEvent.click(screen.getByRole('button', { name: /ingresar/i }));
+  expect(screen.getByText(/credenciales inválidas/i)).toBeInTheDocument();
+});
+//Prueba unitaria
