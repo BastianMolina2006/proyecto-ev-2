@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Navbar from './componentes/organismos/Navbar';
 import Footer from './componentes/organismos/Footer';
@@ -14,6 +14,12 @@ import DetalleServicio from './paginas/DetalleServicio';
 
 import Login from './paginas/Login';
 import Registro from './paginas/Registro';
+
+import AdminLayout from './paginas/admin/AdminLayout';
+import AdminResumen from './paginas/admin/AdminResumen';
+import AdminInventario from './paginas/admin/AdminInventario';
+import AdminClientes from './paginas/admin/AdminClientes';
+
 
 function App() {
   return (
@@ -33,6 +39,13 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
+
+          <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminResumen />} />
+          <Route path="inventario" element={<AdminInventario />} />
+          <Route path="clientes" element={<AdminClientes />} />
+        </Route>
+          <Route path="/administracion" element={<Navigate to="/admin" replace />} />
 
           <Route path="*" element={<Inicio />} />
         </Routes>

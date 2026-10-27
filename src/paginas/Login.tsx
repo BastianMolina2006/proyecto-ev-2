@@ -19,7 +19,7 @@ export const Login = () => {
     }
 
     if (usuario.tipoUsuario === 'Administrador') {
-      navigate('/administracion');
+      navigate('/admin');
     } else {
       navigate('/');
     }
