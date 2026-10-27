@@ -11,15 +11,6 @@ function Inicio() {
 
   return (
     <div className="container py-3">
-      <div className="d-flex justify-content-end gap-1 mb-2" style={{ fontSize: '13px', color: '#184e36' }}>
-        <Link to="/login" className="text-decoration-none" style={{ color: '#184e36' }}>
-          Iniciar sesión
-        </Link>
-        <span className="text-muted">|</span>
-        <Link to="/registro" className="text-decoration-none" style={{ color: '#184e36' }}>
-          Registrar usuario
-        </Link>
-        </div>
 
     <div className="container py-4">
       <div className="row align-items-center bg-vet-claro p-4 p-md-5 rounded border border-vet mb-5">
