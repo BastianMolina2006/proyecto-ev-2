@@ -44,6 +44,19 @@ function Navbar() {
             {usuarioActivo ? (
               // Cuando hay sesión iniciada como Cliente o Admin
               <div className="d-flex align-items-center gap-2">
+                {/* Acceso de vuelta al panel, solo para administradores */}
+                {usuarioActivo.tipoUsuario === 'Administrador' && (
+                  <>
+                    <Link
+                      to="/admin"
+                      className="btn btn-sm rounded-pill text-white fw-semibold px-3 py-1 d-flex align-items-center gap-2 text-nowrap shadow-sm"
+                      style={{ backgroundColor: '#184e36', fontSize: '0.8rem', letterSpacing: '0.2px' }}
+                    >
+                      <span aria-hidden="true">⚙️</span>
+                      Panel Admin
+                    </Link>
+                  </>
+                )}
                 <span className="text-vet-verde fw-bold d-flex align-items-center gap-1">
                   <span>👤</span> {usuarioActivo.nombre || usuarioActivo.tipoUsuario}
                 </span>
@@ -51,7 +64,7 @@ function Navbar() {
                 <button
                   type="button"
                   onClick={handleCerrarSesion}
-                  className="btn btn-link p-0 text-danger text-decoration-none small border-0 fw-semibold"
+                  className="btn btn-link p-0 text-danger text-decoration-none small border-0 fw-semibold text-nowrap"
                 >
                   Cerrar sesión
                 </button>

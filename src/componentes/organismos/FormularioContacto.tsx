@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { enviarContacto } from '../../servicios/contactosApi';
 
 interface ErroresContacto {
   nombre?: string;
@@ -13,8 +14,10 @@ export default function FormularioContacto() {
   
   const [errores, setErrores] = useState<ErroresContacto>({});
   const [enviado, setEnviado] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+  const [errorEnvio, setErrorEnvio] = useState('');
 
-  const manejarEnvio = (e: React.FormEvent<HTMLFormElement>) => {
+  const manejarEnvio = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const nuevosErrores: ErroresContacto = {};
 
@@ -46,12 +49,22 @@ export default function FormularioContacto() {
       return;
     }
 
-    // Envío exitoso
-    setEnviado(true);
-    setNombre('');
-    setCorreo('');
-    setMensaje('');
-    setErrores({});
+    // Envío al microservicio de contactos (POST /api/contactos)
+    setEnviando(true);
+    setErrorEnvio('');
+    try {
+      await enviarContacto({ nombreCompleto: nombre.trim(), correo: correo.trim(), mensaje: mensaje.trim() });
+      setEnviado(true);
+      setNombre('');
+      setCorreo('');
+      setMensaje('');
+      setErrores({});
+    } catch (error) {
+      setEnviado(false);
+      setErrorEnvio(error instanceof Error ? error.message : 'No se pudo enviar el mensaje.');
+    } finally {
+      setEnviando(false);
+    }
   };
 
   return (
@@ -62,6 +75,12 @@ export default function FormularioContacto() {
           <div>
             <strong>¡Mensaje enviado con éxito!</strong> Nos pondremos en contacto contigo a la brevedad.
           </div>
+        </div>
+      )}
+
+      {errorEnvio && (
+        <div className="alert alert-danger mb-4" role="alert">
+          {errorEnvio}
         </div>
       )}
 
@@ -129,10 +148,11 @@ export default function FormularioContacto() {
         {/* Botón Enviar con estilo corporativo */}
         <button
           type="submit"
+          disabled={enviando}
           className="btn text-white fw-semibold px-4 py-2"
           style={{ backgroundColor: '#184e36' }}
         >
-          Enviar Mensaje
+          {enviando ? 'Enviando...' : 'Enviar Mensaje'}
         </button>
       </form>
     </div>
