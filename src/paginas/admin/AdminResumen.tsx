@@ -63,7 +63,6 @@ export const AdminResumen = () => {
           </div>
         </div>
 
-        
       </div>
 
       {/* Tablas Inferiores */}
