@@ -1,7 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { medicamentosSeed } from '../../data/Medicamentos';
 import { serviciosSeed } from '../../data/Servicios';
+import {
+  listarMedicamentos, crearMedicamento, actualizarMedicamento, eliminarMedicamento,
+  listarServicios, crearServicio, actualizarServicio, eliminarServicio,
+} from '../../servicios/inventarioApi';
 import FormNuevoMed from './FormNuevoMed';
 import FormEditarMed from './FormEditarMed';
 import FormNuevoServicio from './FormNuevoServicio';
@@ -17,6 +21,7 @@ export const AdminInventario = () => {
 
   // ================= ESTADOS: MEDICAMENTOS (TEMPORAL EN MEMORIA) =================
   const [medicamentos, setMedicamentos] = useState<Medicamento[]>(medicamentosSeed);
+  const [errorApi, setErrorApi] = useState('');
   const [mostrarNuevoMed, setMostrarNuevoMed] = useState(false);
   const [editandoMed, setEditandoMed] = useState<Medicamento | null>(null);
 
@@ -39,13 +44,68 @@ export const AdminInventario = () => {
   const [filtroEspServ, setFiltroEspServ] = useState('Todas');
   const [ordenServ, setOrdenServ] = useState('nombre');
 
-  // ================= MANEJADORES DE ESTADO (VOLÁTILES) =================
-  const guardarMedicamentos = (nuevos: Medicamento[]) => {
-    setMedicamentos(nuevos);
+  // ================= CARGA DESDE EL MICROSERVICIO (GET) =================
+  useEffect(() => {
+    listarMedicamentos().then(setMedicamentos).catch((e: Error) => setErrorApi(e.message));
+    listarServicios().then(setServicios).catch((e: Error) => setErrorApi(e.message));
+  }, []);
+
+  // Ejecuta una operación contra la API y muestra el error si falla
+  const ejecutar = async (operacion: () => Promise<unknown>): Promise<boolean> => {
+    try {
+      await operacion();
+      setErrorApi('');
+      return true;
+    } catch (e) {
+      setErrorApi(e instanceof Error ? e.message : 'Error al guardar los cambios.');
+      return false;
+    }
   };
 
-  const guardarServicios = (nuevos: Servicio[]) => {
-    setServicios(nuevos);
+  // Código siguiente: mayor número existente + 1 (ME023, SV032...)
+  const siguiente = (prefijo: string, codigos: string[]) => {
+    const mayor = codigos.reduce((max, c) => Math.max(max, parseInt(c.replace(/\D/g, ''), 10) || 0), 0);
+    return `${prefijo}${String(mayor + 1).padStart(3, '0')}`;
+  };
+
+  // POST / PUT / DELETE de medicamentos
+  const crearMed = async (nuevo: Medicamento) => {
+    if (await ejecutar(() => crearMedicamento(nuevo))) {
+      setMedicamentos([nuevo, ...medicamentos]);
+      setMostrarNuevoMed(false);
+    }
+  };
+  const guardarMed = async (actualizado: Medicamento) => {
+    if (await ejecutar(() => actualizarMedicamento(actualizado))) {
+      setMedicamentos(medicamentos.map(m => m.codigo === actualizado.codigo ? actualizado : m));
+      setEditandoMed(null);
+    }
+  };
+  const borrarMed = async (m: Medicamento) => {
+    if (!confirm(`¿Eliminar ${m.nombre}?`)) return;
+    if (await ejecutar(() => eliminarMedicamento(m.codigo))) {
+      setMedicamentos(medicamentos.filter(x => x.codigo !== m.codigo));
+    }
+  };
+
+  // POST / PUT / DELETE de servicios
+  const crearServ = async (nuevo: Servicio) => {
+    if (await ejecutar(() => crearServicio(nuevo))) {
+      setServicios([nuevo, ...servicios]);
+      setMostrarNuevoServ(false);
+    }
+  };
+  const guardarServ = async (actualizado: Servicio) => {
+    if (await ejecutar(() => actualizarServicio(actualizado))) {
+      setServicios(servicios.map(s => s.codigo === actualizado.codigo ? actualizado : s));
+      setEditandoServ(null);
+    }
+  };
+  const borrarServ = async (s: Servicio) => {
+    if (!confirm(`¿Eliminar ${s.nombre}?`)) return;
+    if (await ejecutar(() => eliminarServicio(s.codigo))) {
+      setServicios(servicios.filter(x => x.codigo !== s.codigo));
+    }
   };
 
   // ================= LIMPIEZA DE FILTROS =================
@@ -114,6 +174,8 @@ export const AdminInventario = () => {
         <h1 className="fw-bold font-serif-vet display-6 text-vet-verde m-0">Inventario</h1>
         <p className="text-secondary small">Administra medicamentos y servicios de la clínica.</p>
       </div>
+
+      {errorApi && <div className="alert alert-danger py-2 small">{errorApi}</div>}
 
       {/* Pestañas de Selección */}
       <div className="d-flex align-items-center gap-3 border-bottom pb-3 mb-3">
@@ -186,11 +248,8 @@ export const AdminInventario = () => {
           {/* Formulario de Creación */}
           {mostrarNuevoMed && (
             <FormNuevoMed
-              siguienteCodigo={`ME0${medicamentos.length + 1 < 10 ? '0' : ''}${medicamentos.length + 1}`}
-              alCrear={(nuevo) => {
-                guardarMedicamentos([nuevo, ...medicamentos]);
-                setMostrarNuevoMed(false);
-              }}
+              siguienteCodigo={siguiente('ME', medicamentos.map(m => m.codigo))}
+              alCrear={crearMed}
               alCancelar={() => setMostrarNuevoMed(false)}
             />
           )}
@@ -199,10 +258,7 @@ export const AdminInventario = () => {
           {editandoMed && (
             <FormEditarMed
               medicamento={editandoMed}
-              alGuardar={(actualizado) => {
-                guardarMedicamentos(medicamentos.map(m => m.codigo === actualizado.codigo ? actualizado : m));
-                setEditandoMed(null);
-              }}
+              alGuardar={guardarMed}
               alCancelar={() => setEditandoMed(null)}
             />
           )}
@@ -312,11 +368,7 @@ export const AdminInventario = () => {
                           Ver
                         </button>
                         <button 
-                          onClick={() => {
-                            if (confirm(`¿Eliminar ${m.nombre}?`)) {
-                              guardarMedicamentos(medicamentos.filter(x => x.codigo !== m.codigo));
-                            }
-                          }} 
+                          onClick={() => borrarMed(m)} 
                           className="btn btn-sm btn-danger py-1 px-2" 
                           style={{ fontSize: '0.75rem', backgroundColor: '#a61c1c' }}
                         >
@@ -354,11 +406,8 @@ export const AdminInventario = () => {
           {/* Formulario de Creación de Servicio */}
           {mostrarNuevoServ && (
             <FormNuevoServicio
-              siguienteCodigo={`SV0${servicios.length + 1}`}
-              alCrear={(nuevo) => {
-                guardarServicios([nuevo, ...servicios]);
-                setMostrarNuevoServ(false);
-              }}
+              siguienteCodigo={siguiente('SV', servicios.map(s => s.codigo))}
+              alCrear={crearServ}
               alCancelar={() => setMostrarNuevoServ(false)}
             />
           )}
@@ -367,10 +416,7 @@ export const AdminInventario = () => {
           {editandoServ && (
             <FormEditarServicio
               servicio={editandoServ}
-              alGuardar={(actualizado) => {
-                guardarServicios(servicios.map(s => s.codigo === actualizado.codigo ? actualizado : s));
-                setEditandoServ(null);
-              }}
+              alGuardar={guardarServ}
               alCancelar={() => setEditandoServ(null)}
             />
           )}
@@ -466,11 +512,7 @@ export const AdminInventario = () => {
                           Ver
                         </button>
                         <button 
-                          onClick={() => {
-                            if (confirm(`¿Eliminar ${s.nombre}?`)) {
-                              guardarServicios(servicios.filter(x => x.codigo !== s.codigo));
-                            }
-                          }}
+                          onClick={() => borrarServ(s)}
                           className="btn btn-sm btn-danger py-1 px-2"
                           style={{ fontSize: '0.75rem', backgroundColor: '#a61c1c' }}
                         >

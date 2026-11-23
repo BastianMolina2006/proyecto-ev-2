@@ -1,12 +1,13 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { medicamentosSeed } from '../data/Medicamentos';
+import { useMedicamentos } from '../servicios/inventarioApi';
 
 export const DetalleMedicamento = () => {
   const { codigo } = useParams<{ codigo: string }>();
   const navigate = useNavigate();
+  const medicamentos = useMedicamentos();
 
-  // Buscar el medicamento en el seed por su código (ej: ME001)
-  const medicamento = medicamentosSeed.find(
+  // Buscar el medicamento por su código (ej: ME001)
+  const medicamento = medicamentos.find(
     (m) => m.codigo.toUpperCase() === codigo?.toUpperCase()
   );
 

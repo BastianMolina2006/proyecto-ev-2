@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { autenticarUsuario } from '../data/Usuarios';
+import { guardarSesion } from '../data/Usuarios';
+import { loginApi } from '../servicios/usuariosApi';
+import { guardarToken } from '../servicios/sesion';
 
 export const Login = () => {
   const [correo, setCorreo] = useState('');
@@ -8,15 +10,26 @@ export const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    const usuario = autenticarUsuario(correo, clave);
-    if (!usuario) {
+    if (!correo.trim() || !clave) {
       setError('Credenciales inválidas.');
       return;
     }
+
+    // Validación en el microservicio de usuarios (POST /api/usuarios/login)
+    let respuesta;
+    try {
+      respuesta = await loginApi(correo.trim(), clave);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Credenciales inválidas.');
+      return;
+    }
+    const usuario = respuesta.usuario;
+    guardarToken(respuesta.token); // token JWT que se enviará en cada petición
+    guardarSesion(usuario);
 
     if (usuario.tipoUsuario === 'Administrador') {
       navigate('/admin');

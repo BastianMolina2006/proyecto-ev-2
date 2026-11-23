@@ -67,6 +67,28 @@ export const AdminLayout = () => {
             >
               <span>👥</span> Clientes
             </NavLink>
+
+            <NavLink
+              to="/admin/contactos"
+              className={({ isActive }) =>
+                `btn text-start d-flex align-items-center gap-2 px-3 py-2 rounded-3 border-0 fw-semibold ${
+                  isActive ? 'bg-white text-success shadow-sm' : 'text-white-50 bg-transparent'
+                }`
+              }
+            >
+              <span>✉️</span> Contactos
+            </NavLink>
+
+            <NavLink
+              to="/admin/noticias"
+              className={({ isActive }) =>
+                `btn text-start d-flex align-items-center gap-2 px-3 py-2 rounded-3 border-0 fw-semibold ${
+                  isActive ? 'bg-white text-success shadow-sm' : 'text-white-50 bg-transparent'
+                }`
+              }
+            >
+              <span>📰</span> Noticias
+            </NavLink>
           </div>
         </div>
 

@@ -1,42 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-interface Noticia {
-  id: number;
-  titulo: string;
-  categoria: string;
-  fecha: string;
-  resumen: string;
-}
-
-const NOTICIAS_DATA: Noticia[] = [
-  {
-    id: 1,
-    titulo: "Campaña de Vacunación Antirrábica 2026",
-    categoria: "Salud Pública",
-    fecha: "24 de Octubre, 2026",
-    resumen: "Conoce las nuevas fechas y puntos habilitados para la inmunización antirrábica de perros y gatos en la comuna."
-  },
-  {
-    id: 2,
-    titulo: "La Importancia del Microchip y Registro Legal",
-    categoria: "Tenencia Responsable",
-    fecha: "18 de Octubre, 2026",
-    resumen: "Descubre cómo la identificación electrónica mediante microchip protege a tus animales ante casos de extravío."
-  },
-  {
-    id: 3,
-    titulo: "Obesidad en Perros y Gatos: Nutrición Terapéutica",
-    categoria: "Nutrición",
-    fecha: "10 de Octubre, 2026",
-    resumen: "Análisis clínico sobre cómo el sobrepeso afecta la calidad de vida y las alternativas de nutrición especializada."
-  }
-];
+import { listarNoticias, formatearFecha, type NoticiaApi } from '../servicios/noticiasApi';
 
 export default function Noticias() {
   const [busqueda, setBusqueda] = useState('');
+  const [noticias, setNoticias] = useState<NoticiaApi[]>([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState('');
 
-  const noticiasFiltradas = NOTICIAS_DATA.filter(noticia =>
+  // GET /api/noticias
+  useEffect(() => {
+    listarNoticias()
+      .then(setNoticias)
+      .catch((e: Error) => setError(e.message))
+      .finally(() => setCargando(false));
+  }, []);
+
+  const noticiasFiltradas = noticias.filter(noticia =>
     noticia.titulo.toLowerCase().includes(busqueda.toLowerCase()) ||
     noticia.categoria.toLowerCase().includes(busqueda.toLowerCase())
   );
@@ -67,7 +47,7 @@ export default function Noticias() {
                 <div>
                   <span className="badge bg-vet-verde mb-2">{noticia.categoria}</span>
                   <h5 className="card-title fw-bold text-vet-verde">{noticia.titulo}</h5>
-                  <h6 className="card-subtitle mb-2 text-muted small">{noticia.fecha}</h6>
+                  <h6 className="card-subtitle mb-2 text-muted small">{formatearFecha(noticia.fecha)}</h6>
                   <p className="card-text text-secondary mt-3">{noticia.resumen}</p>
                 </div>
                 <div className="mt-3">
@@ -83,7 +63,9 @@ export default function Noticias() {
           ))
         ) : (
           <div className="col-12 text-center py-5 text-muted">
-            No se encontraron noticias que coincidan con la búsqueda.
+            {cargando
+              ? 'Cargando noticias...'
+              : error || 'No se encontraron noticias que coincidan con la búsqueda.'}
           </div>
         )}
       </div>

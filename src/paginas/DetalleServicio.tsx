@@ -1,11 +1,12 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { serviciosSeed } from '../data/Servicios';
+import { useServicios } from '../servicios/inventarioApi';
 
 export const DetalleServicio = () => {
   const { codigo } = useParams<{ codigo: string }>();
   const navigate = useNavigate();
+  const servicios = useServicios();
 
-  const servicio = serviciosSeed.find(
+  const servicio = servicios.find(
     (s) => s.codigo.toUpperCase() === codigo?.toUpperCase()
   );
 

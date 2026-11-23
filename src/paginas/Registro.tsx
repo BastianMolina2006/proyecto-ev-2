@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { registrarUsuario } from '../data/Usuarios';
+import { registrarUsuarioApi } from '../servicios/usuariosApi';
 
 export const Registro = () => {
   const navigate = useNavigate();
 
   // Estados de los campos controlados
   const [run, setRun] = useState('');
-  const [tipoUsuario, setTipoUsuario] = useState('Cliente');
   const [nombre, setNombre] = useState('');
   const [apellidos, setApellidos] = useState('');
   const [correo, setCorreo] = useState('');
@@ -48,25 +47,28 @@ export const Registro = () => {
     return Object.keys(err).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validarFormulario()) return;
 
-    const registrado = registrarUsuario({
-      run,
-      tipoUsuario,
-      nombre,
-      apellidos,
-      correo,
-      clave,
-      fechaNacimiento,
-      region,
-      comuna,
-      direccion
-    });
-
-    if (!registrado) {
-      setErrores({ correo: "Este correo ya se encuentra registrado." });
+    // Registro en el microservicio de usuarios (POST /api/usuarios)
+    try {
+      await registrarUsuarioApi({
+        run,
+        tipoUsuario: 'Cliente', // el registro público siempre crea clientes
+        nombre,
+        apellidos,
+        correo,
+        clave,
+        fechaNacimiento,
+        region,
+        comuna,
+        direccion
+      });
+    } catch (error) {
+      const mensaje = error instanceof Error ? error.message : 'No se pudo registrar el usuario.';
+      // El servidor responde 409 con el mensaje del dato repetido (correo o RUN)
+      setErrores(mensaje.includes('RUN') ? { run: mensaje } : { correo: mensaje });
       return;
     }
 
@@ -132,22 +134,6 @@ export const Registro = () => {
                 onChange={(e) => setRun(e.target.value)}
               />
               {errores.run && <small className="text-danger d-block mt-1">{errores.run}</small>}
-            </div>
-
-            <div className="col-12 col-sm-6">
-              <label className="form-label small text-secondary fw-semibold mb-1">
-                Tipo de usuario
-              </label>
-              <select
-                className="form-select rounded-3 py-2 border-vet text-secondary"
-                value={tipoUsuario}
-                onChange={(e) => setTipoUsuario(e.target.value)}
-              >
-                <option value="Cliente">Cliente</option>
-                <option value="Recepcionista">Recepcionista</option>
-                <option value="Veterinario">Veterinario</option>
-                <option value="Administrador">Administrador</option>
-              </select>
             </div>
           </div>
 

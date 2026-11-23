@@ -75,4 +75,10 @@ export const obtenerSesionActiva = (): Usuario | null => {
 
 export const cerrarSesion = () => {
   localStorage.removeItem("vet_sesion_activa");
+  localStorage.removeItem("vet_token"); // token JWT
+};
+
+// Guarda la sesión del usuario que inició sesión (validado por el microservicio de usuarios).
+export const guardarSesion = (usuario: Usuario) => {
+  localStorage.setItem("vet_sesion_activa", JSON.stringify(usuario));
 };

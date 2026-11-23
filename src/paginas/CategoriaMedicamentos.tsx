@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { medicamentosSeed } from '../data/Medicamentos';
+import { useMedicamentos } from '../servicios/inventarioApi';
 import CardMedicamentoDetalle from '../componentes/moleculas/CardMedicamentoDetalle';
 
 const CATEGORIA_MAP: { [key: string]: string } = {
@@ -18,13 +18,14 @@ const CATEGORIA_MAP: { [key: string]: string } = {
 export const CategoriaMedicamento = () => {
   const { categoriaSlug } = useParams<{ categoriaSlug: string }>();
   const nombreCategoria = CATEGORIA_MAP[categoriaSlug || ''] || "Categoría";
+  const medicamentos = useMedicamentos();
 
   const [busqueda, setBusqueda] = useState('');
   const [especieFiltro, setEspecieFiltro] = useState('Todas');
   const [orden, setOrden] = useState('nombre');
 
   const productosFiltrados = useMemo(() => {
-    return medicamentosSeed
+    return medicamentos
       .filter((med) => med.categoria.toLowerCase() === nombreCategoria.toLowerCase())
       .filter((med) => {
         const coincideTexto = 
@@ -42,7 +43,7 @@ export const CategoriaMedicamento = () => {
         if (orden === 'precio-desc') return b.precio - a.precio;
         return a.nombre.localeCompare(b.nombre);
       });
-  }, [nombreCategoria, busqueda, especieFiltro, orden]);
+  }, [medicamentos, nombreCategoria, busqueda, especieFiltro, orden]);
 
   return (
     <div className="container py-3">

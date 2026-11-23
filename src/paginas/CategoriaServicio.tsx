@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { serviciosSeed } from '../data/Servicios';
+import { useServicios } from '../servicios/inventarioApi';
 import CardServicioItem from '../componentes/moleculas/CardServicioItem';
 
 const CATEGORIAS_SERVICIOS_MAP: { [key: string]: string } = {
@@ -15,13 +15,14 @@ const CATEGORIAS_SERVICIOS_MAP: { [key: string]: string } = {
 export const CategoriaServicio = () => {
   const { categoriaSlug } = useParams<{ categoriaSlug: string }>();
   const nombreCategoria = CATEGORIAS_SERVICIOS_MAP[categoriaSlug || ''] || "Servicios";
+  const servicios = useServicios();
 
   const [busqueda, setBusqueda] = useState('');
   const [especieFiltro, setEspecieFiltro] = useState('Todas');
   const [orden, setOrden] = useState('nombre');
 
   const serviciosFiltrados = useMemo(() => {
-    return serviciosSeed
+    return servicios
       .filter((s) => s.categoria.toLowerCase() === nombreCategoria.toLowerCase())
       .filter((s) => {
         const coincideTexto = 
@@ -39,7 +40,7 @@ export const CategoriaServicio = () => {
         if (orden === 'precio-desc') return b.precio - a.precio;
         return a.nombre.localeCompare(b.nombre);
       });
-  }, [nombreCategoria, busqueda, especieFiltro, orden]);
+  }, [servicios, nombreCategoria, busqueda, especieFiltro, orden]);
 
   return (
     <div className="container py-3">
