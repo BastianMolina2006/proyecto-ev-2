@@ -63,13 +63,7 @@ export const AdminResumen = () => {
           </div>
         </div>
 
-        <div className="col-12 col-sm-6 col-xl-3">
-          <div className="card h-100 border p-3 rounded-4 shadow-sm" style={{ borderColor: '#e2ece6' }}>
-            <div className="text-secondary mb-2 fs-4">📅</div>
-            <h2 className="fw-bold m-0 font-serif-vet text-dark">{citas.length}</h2>
-            <small className="text-secondary d-block mb-3">Citas agendadas</small>
-          </div>
-        </div>
+        
       </div>
 
       {/* Tablas Inferiores */}
