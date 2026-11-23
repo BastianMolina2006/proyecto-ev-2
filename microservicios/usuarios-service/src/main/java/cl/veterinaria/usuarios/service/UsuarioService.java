@@ -17,7 +17,6 @@ public class UsuarioService {
         this.repository = repository;
     }
 
-    // Registro: valida la clave y que el correo y el RUN no estén repetidos.
     public Usuario registrar(Usuario usuario) {
         validarClave(usuario.getClave());
         if (repository.findByCorreoIgnoreCase(usuario.getCorreo()).isPresent()) {
@@ -62,7 +61,6 @@ public class UsuarioService {
         usuario.setComuna(datos.getComuna());
         usuario.setDireccion(datos.getDireccion());
 
-        // La clave solo se cambia si viene en la petición.
         if (datos.getClave() != null && !datos.getClave().isBlank()) {
             validarClave(datos.getClave());
             usuario.setClave(datos.getClave());
