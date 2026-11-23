@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Navbar from './componentes/organismos/Navbar';
 import Footer from './componentes/organismos/Footer';
+import RutaProtegida from './componentes/RutaProtegida';
 
 import Inicio from './paginas/Inicio';
 import Medicamentos from './paginas/Medicamentos';
@@ -19,6 +20,8 @@ import AdminLayout from './paginas/admin/AdminLayout';
 import AdminResumen from './paginas/admin/AdminResumen';
 import AdminInventario from './paginas/admin/AdminInventario';
 import AdminClientes from './paginas/admin/AdminClientes';
+import AdminContactos from './paginas/admin/AdminContactos';
+import AdminNoticias from './paginas/admin/AdminNoticias';
 import Contacto from './paginas/Contacto';
 import DetalleNoticia from './paginas/DetalleNoticia';
 import Noticias from './paginas/Noticias';
@@ -49,11 +52,16 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
 
-          <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminResumen />} />
-          <Route path="inventario" element={<AdminInventario />} />
-          <Route path="clientes" element={<AdminClientes />} />
-        </Route>
+          {/* Panel de administración: solo el rol Administrador */}
+          <Route element={<RutaProtegida rolPermitido="Administrador" />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminResumen />} />
+              <Route path="inventario" element={<AdminInventario />} />
+              <Route path="clientes" element={<AdminClientes />} />
+              <Route path="contactos" element={<AdminContactos />} />
+              <Route path="noticias" element={<AdminNoticias />} />
+            </Route>
+          </Route>
           <Route path="/administracion" element={<Navigate to="/admin" replace />} />
 
           <Route path="*" element={<Inicio />} />
