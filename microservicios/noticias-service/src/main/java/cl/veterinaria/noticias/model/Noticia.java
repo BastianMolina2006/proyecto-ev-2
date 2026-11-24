@@ -7,7 +7,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
-
+// Noticia que se publica en la sección Noticias de la página.
 @Data
 @Entity
 @Table(name = "noticia")

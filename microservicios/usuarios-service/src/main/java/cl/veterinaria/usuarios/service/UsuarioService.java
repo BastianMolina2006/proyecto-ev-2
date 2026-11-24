@@ -1,8 +1,10 @@
 package cl.veterinaria.usuarios.service;
 
+import cl.veterinaria.usuarios.model.LoginResponse;
 import cl.veterinaria.usuarios.model.Usuario;
 import cl.veterinaria.usuarios.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -12,9 +14,13 @@ import java.util.List;
 public class UsuarioService {
 
     private final UsuarioRepository repository;
+    private final PasswordEncoder encoder;
+    private final JwtService jwtService;
 
-    public UsuarioService(UsuarioRepository repository) {
+    public UsuarioService(UsuarioRepository repository, PasswordEncoder encoder, JwtService jwtService) {
         this.repository = repository;
+        this.encoder = encoder;
+        this.jwtService = jwtService;
     }
 
     public Usuario registrar(Usuario usuario) {
@@ -26,9 +32,8 @@ public class UsuarioService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Este RUN ya se encuentra registrado.");
         }
         usuario.setId(null);
-        if (usuario.getTipoUsuario() == null || usuario.getTipoUsuario().isBlank()) {
-            usuario.setTipoUsuario("Cliente");
-        }
+        usuario.setTipoUsuario("Cliente");
+        usuario.setClave(encoder.encode(usuario.getClave())); // se guarda encriptada (BCrypt)
         return repository.save(usuario);
     }
 
@@ -61,9 +66,10 @@ public class UsuarioService {
         usuario.setComuna(datos.getComuna());
         usuario.setDireccion(datos.getDireccion());
 
+        // La clave solo se cambia si viene en la petición.
         if (datos.getClave() != null && !datos.getClave().isBlank()) {
             validarClave(datos.getClave());
-            usuario.setClave(datos.getClave());
+            usuario.setClave(encoder.encode(datos.getClave()));
         }
         return repository.save(usuario);
     }
@@ -75,11 +81,13 @@ public class UsuarioService {
         repository.deleteById(id);
     }
 
-    public Usuario autenticar(String correo, String clave) {
+    // Login: compara la clave con el hash guardado y, si coincide, crea el token JWT.
+    public LoginResponse login(String correo, String clave) {
         String correoLimpio = correo == null ? "" : correo.trim();
-        return repository.findByCorreoIgnoreCase(correoLimpio)
-                .filter(u -> u.getClave().equals(clave))
+        Usuario usuario = repository.findByCorreoIgnoreCase(correoLimpio)
+                .filter(u -> clave != null && encoder.matches(clave, u.getClave()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciales inválidas."));
+        return new LoginResponse(jwtService.generarToken(usuario), usuario);
     }
 
     private void validarClave(String clave) {

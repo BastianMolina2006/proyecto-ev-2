@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface NoticiaRepository extends JpaRepository<Noticia, Long> {
 
+    // Las más recientes primero.
     List<Noticia> findAllByOrderByFechaDescIdDesc();
 }

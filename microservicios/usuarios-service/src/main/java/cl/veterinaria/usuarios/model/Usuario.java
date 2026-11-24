@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+// Usuario: clientes y administradores del sistema.
 @Data
 @Entity
 @Table(name = "usuario")
@@ -19,6 +20,7 @@ public class Usuario {
     @Column(nullable = false, unique = true, length = 12)
     private String run;
 
+    // "Cliente" o "Administrador"
     @Column(name = "tipo_usuario", nullable = false, length = 20)
     private String tipoUsuario = "Cliente";
 
@@ -35,6 +37,7 @@ public class Usuario {
     @Column(nullable = false, unique = true, length = 150)
     private String correo;
 
+    // WRITE_ONLY: la clave se recibe pero nunca se devuelve en el JSON.
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false, length = 50)
     private String clave;
